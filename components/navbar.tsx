@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
-import { RiArrowDownSLine, RiArrowRightSLine } from 'react-icons/ri'
+import { RiArrowDownSLine, RiArrowRightSLine, RiArrowLeftSLine } from 'react-icons/ri'
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
 
 const Navbar = () => {
@@ -12,6 +12,7 @@ const Navbar = () => {
   const [toggle, setToggle] = useState(false);
 
   const { t, i18n } = useTranslation();
+  const txt2: string = t("about16");
 
   const changeLanguage = (lng: any) => {
     i18n.changeLanguage(lng);
@@ -62,7 +63,9 @@ const Navbar = () => {
           onMouseLeave={handleMouseLeave}
           onClick={() => setClicked(!clicked)}>
           {t("about2")}
-          {arrow ? <RiArrowDownSLine className='text-gray-400' size={23} /> : <RiArrowRightSLine size={23} />}
+          {arrow ? <RiArrowDownSLine className='text-gray-400' size={23} /> : 
+          txt2 === "ltr"? 
+          <RiArrowRightSLine size={23} /> : <RiArrowLeftSLine size={23}/>}
         </button>
         <div className={`absolute rounded-md bg-white shadow-2xl ${clicked ? 'visible duration-500 ease-in-out' : 'hidden duration-500 ease-in-out'}`}>
           <div className='py-2 text-center p-4'>
