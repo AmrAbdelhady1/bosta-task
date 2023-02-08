@@ -15,6 +15,7 @@ const Navbar = () => {
 
   const changeLanguage = (lng: any) => {
     i18n.changeLanguage(lng);
+    setClicked(!clicked)
   };
 
 
