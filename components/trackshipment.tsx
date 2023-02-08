@@ -72,10 +72,10 @@ const Trackshipment = () => {
             {loading ? <div>loading</div>
                 : error ?
                     <div className='flex flex-col items-center mt-20 w-[50%] gap-4'>
-                        <h1 className='text-base text-[#667085] font-semibold'>Shipment No. {trackid2}</h1>
+                        <h1 className='text-base text-[#667085] font-semibold'>{t("about4")}. {trackid2}</h1>
                         <div className='p-4 bg-[#fef3f2] border-[1px] border-[#fecdca] rounded flex items-baseline gap-3 text-[15px]'>
                             <span className='text-red-500'><MdOutlineError /></span>
-                            <p>No record of this tracking number can be found at this time, please check the number and try again later. For further assistance, please contact Customer Service.</p>
+                            <p>{t("about17")}</p>
                         </div>
                     </div>
                     : date &&
