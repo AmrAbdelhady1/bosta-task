@@ -28,6 +28,7 @@ const Trackshipment = () => {
     const [diffindays, setDiff] = useState(0);
     const [time, setTime] = useState("");
     const { t, i18n } = useTranslation();
+    const txt : string = t("about4");
 
     const fetchData = async () => {
         setDate(null);
@@ -58,7 +59,7 @@ const Trackshipment = () => {
                 <input
                     onChange={(e: any) => setTrackId(e.target.value)}
                     type="text"
-                    placeholder={t("about4")}
+                    placeholder={txt}
                     className='h-16 w-full md:w-[395px] rounded-r-none rounded-xl p-5 border-r-0 border-[1px] border-[#e4e7ec] text-sm outline-none ease-in-out duration-500 focus:border-[#0098a5]'
                 />
                 <button className='rounded-xl rounded-l-none w-16 h-16 bg-[#e30613] flex justify-center items-center text-3xl text-white hover:scale-110'
