@@ -29,6 +29,7 @@ const Trackshipment = () => {
     const [time, setTime] = useState("");
     const { t, i18n } = useTranslation();
     const txt : string = t("about4");
+    const txt2: string = t("about16");
 
     const fetchData = async () => {
         setDate(null);
@@ -60,9 +61,9 @@ const Trackshipment = () => {
                     onChange={(e: any) => setTrackId(e.target.value)}
                     type="text"
                     placeholder={txt}
-                    className='h-16 w-full md:w-[395px] rounded-r-none rounded-xl p-5 border-r-0 border-[1px] border-[#e4e7ec] text-sm outline-none ease-in-out duration-500 focus:border-[#0098a5]'
+                    className={`h-16 w-full md:w-[395px]  rounded-xl p-5 ${txt2 === 'ltr'?'border-r-0 rounded-r-none':'border-l-0 rounded-l-none'} border-[1px] border-[#e4e7ec] text-sm outline-none ease-in-out duration-500 focus:border-[#0098a5]`}
                 />
-                <button className='rounded-xl rounded-l-none w-16 h-16 bg-[#e30613] flex justify-center items-center text-3xl text-white hover:scale-110'
+                <button className={`rounded-xl ${txt2 === 'ltr'?'rounded-l-none':'rounded-r-none'} w-16 h-16 bg-[#e30613] flex justify-center items-center text-3xl text-white hover:scale-110`}
                     onClick={fetchData}
                 >
                     <BsSearch />

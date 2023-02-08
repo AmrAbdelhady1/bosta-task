@@ -53,7 +53,7 @@ const Navbar = () => {
       </Link>
 
       {/* dropdown menu */}
-      <div ref={dropdownRef} className="relative xl:inline-block text-left pr-20 hidden">
+      <div ref={dropdownRef} className="relative xl:inline-block text-left pr-20 pl-4 hidden">
         <button
           className={`inline-flex  gap-1 items-end hover:text-red-600 font-medium text-lg  ${clicked ? `text-red-600` : `text-black`} `}
           onMouseEnter={() => setArrow(false)}
@@ -63,7 +63,7 @@ const Navbar = () => {
           {arrow ? <RiArrowDownSLine className='text-gray-400' size={23} /> : <RiArrowRightSLine size={23} />}
         </button>
         <div className={`absolute rounded-md bg-white shadow-2xl ${clicked ? 'visible duration-500 ease-in-out' : 'hidden duration-500 ease-in-out'}`}>
-          <div className='py-2 text-center px-2'>
+          <div className='py-2 text-center p-4'>
             <a href="#" className='block px-2 py-2 text-sm hover:bg-gray-200'
               onClick={() => changeLanguage("en")}>{t("about11")}</a>
             <a href="#" className='block px-2 py-2 text-sm hover:bg-gray-200'

@@ -12,9 +12,10 @@ interface Props {
 const Layout = ({ children }: Props) => {
 
     const { t, i18n } = useTranslation();
+    const txt: string = t("about16");
 
     return (
-        <div>
+        <div dir={txt}>
             <Head>
                 <title>{t("about15")}</title>
                 <link rel="icon" href="/icon.png" />
