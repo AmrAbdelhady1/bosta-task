@@ -43,8 +43,8 @@ const Navbar = () => {
   }, [])
 
   return (
-    <div className='bg-white flex justify-between items-center px-16 py-5 fixed top-0 right-0 left-0'>
-      <Link href={'/'} className='inline-flex items-center gap-2'>
+    <div className='bg-white flex justify-between items-center px-16 py-5 fixed top-0 right-0 left-0 '>
+      <a href={'/'} className='inline-flex items-center gap-2'>
         <Image
           alt=''
           src={'/icon.png'}
@@ -53,7 +53,7 @@ const Navbar = () => {
           priority
         />
         <h1 className='text-2xl text-red-600 font-bold'>{t("about1")}</h1>
-      </Link>
+      </a>
 
       {/* dropdown menu */}
       <div ref={dropdownRef} className="relative xl:inline-block text-left pr-20 pl-4 hidden">
@@ -68,8 +68,8 @@ const Navbar = () => {
           <RiArrowRightSLine size={23} /> : <RiArrowLeftSLine size={23}/>}
         </button>
         <div className={`absolute rounded-md bg-white shadow-2xl ${clicked ? 'visible duration-500 ease-in-out' : 'hidden duration-500 ease-in-out'}`}>
-          <div className='py-2 text-center p-4'>
-            <a href="#" className='block px-2 py-2 text-sm hover:bg-gray-200'
+          <div className='py-2 text-center p-4 whitespace-nowrap'>
+            <a href="#" className='block px-2 py-2 text-sm hover:bg-gray-200 '
               onClick={() => changeLanguage("en")}>{t("about11")}</a>
             <a href="#" className='block px-2 py-2 text-sm hover:bg-gray-200'
               onClick={() => changeLanguage("ar")}>{t("about12")}</a>
@@ -81,8 +81,13 @@ const Navbar = () => {
       <div className=" text-[#475467] xl:hidden" onClick={() => setToggle(!toggle)}>
         {(toggle) ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
       </div>
-      <ul className={toggle ? 'xl:hidden fixed bg-white text-xl h-full w-full pt-6 pl-2 left-0 top-24 ease-in-out duration-500' : ' fixed left-[-100%]'}>
-        <li className='p-4 border-b border-dotted border-gray-600 mx-4'>العربية</li>
+      <ul className={toggle ? 'xl:hidden text-center fixed bg-white text-xl  w-full pl-2 left-0 top-20 ease-in-out duration-500' : ' fixed left-[-100%]'}>
+        <li className='p-4 border-b border-dotted border-gray-600 mx-4 cursor-pointer'
+        onClick={() => changeLanguage("en")}
+        >{t("about11")}</li>
+        <li className='p-4 border-b border-dotted border-gray-600 mx-4 cursor-pointer'
+        onClick={() => changeLanguage("ar")}
+        >{t("about12")}</li>
       </ul>
 
     </div>

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { BsSearch } from 'react-icons/bs'
 import { MdOutlineError } from 'react-icons/md'
 import moment from 'moment';
+import 'moment/locale/ar';
 import { useTranslation } from 'react-i18next'
 
 interface CurrentStatus {
@@ -28,30 +29,45 @@ const Trackshipment = () => {
     const [diffindays, setDiff] = useState(0);
     const [time, setTime] = useState("");
     const { t, i18n } = useTranslation();
-    const txt : string = t("about4");
+    const txt: string = t("about4");
     const txt2: string = t("about16");
+    const [isMounted, setIsMounted] = useState(false);
 
-    const fetchData = async () => {
-        setDate(null);
+    const handleClick = () => {
         setLoading(true);
-        try {
-            const response = await axios.get<Data>("https://tracking.bosta.co/shipments/track/" + trackid);
-            setError(null);
-            setData(response.data);
-            setLoading(false);
-            setTrackId2(trackid);
-        } catch (e: any) {
-            setTrackId2(trackid);
-            setData(null);
-            setLoading(false);
-            setError(e);
-        }
-        if (data) {
-            setDate(moment(data?.CurrentStatus.timestamp.substring(0, 10)).format("ddd, DD MMMM YYYY"));
-            setDiff(moment().diff(moment(data?.CurrentStatus.timestamp.substring(0, 10)).format("ddd, DD MMMM YYYY"), 'days'));
-            setTime(moment(data?.PromisedDate.substring(0, 24)).format("h:mm A"));
-        }
     };
+
+    useEffect(() => {
+        if (!isMounted) {
+            setIsMounted(true);
+            return;
+        }
+        const fetchData = async () => {
+            try {
+                const response = await fetch('https://tracking.bosta.co/shipments/track/' + trackid);
+                const data = await response.json();
+                setData(data);
+                setLoading(false);
+                setError(null);
+                setTrackId2(trackid);
+                if (data) {
+                    moment.locale(i18n.language === 'ar' ? 'ar' : 'en');
+                    console.log(moment())
+                    setDate(moment(data?.CurrentStatus.timestamp.substring(0, 24)).format("ddd, DD MMMM YYYY"));
+                    setDiff(moment().locale('en').diff(moment(data?.CurrentStatus.timestamp.substring(0, 10)).locale('en').format("ddd, DD MMMM YYYY"), 'days'));
+                    setTime(moment(data?.PromisedDate.substring(0, 24)).format("h:mm A"));
+                }
+            } catch (error: any) {
+                setLoading(false);
+                setTrackId2(trackid);
+                setData(null);
+                setError(error);
+            }
+        };
+
+        fetchData();
+
+    }, [loading, i18n.language]);
 
     return (
         <div className='mt-36 items-center flex justify-center flex-col'>
@@ -61,10 +77,10 @@ const Trackshipment = () => {
                     onChange={(e: any) => setTrackId(e.target.value)}
                     type="text"
                     placeholder={txt}
-                    className={`h-16 w-full md:w-[395px]  rounded-xl p-5 ${txt2 === 'ltr'?'border-r-0 rounded-r-none':'border-l-0 rounded-l-none'} border-[1px] border-[#e4e7ec] text-sm outline-none ease-in-out duration-500 focus:border-[#0098a5]`}
+                    className={`h-16 w-full md:w-[395px]  rounded-xl p-5 ${txt2 === 'ltr' ? 'border-r-0 rounded-r-none' : 'border-l-0 rounded-l-none'} border-[1px] border-[#e4e7ec] text-sm outline-none ease-in-out duration-500 focus:border-[#0098a5]`}
                 />
-                <button className={`rounded-xl ${txt2 === 'ltr'?'rounded-l-none':'rounded-r-none'} w-16 h-16 bg-[#e30613] flex justify-center items-center text-3xl text-white hover:scale-110`}
-                    onClick={fetchData}
+                <button className={`rounded-xl ${txt2 === 'ltr' ? 'rounded-l-none' : 'rounded-r-none'} w-16 h-16 bg-[#e30613] flex justify-center items-center text-3xl text-white hover:scale-110`}
+                    onClick={handleClick}
                 >
                     <BsSearch />
                 </button>
@@ -72,7 +88,7 @@ const Trackshipment = () => {
             {loading ? <div>loading</div>
                 : error ?
                     <div className='flex flex-col items-center mt-20 w-[50%] gap-4'>
-                        <h1 className='text-base text-[#667085] font-semibold'>{t("about4")}. {trackid2}</h1>
+                        <h1 className='text-base text-[#667085] font-semibold'>{t("about4")} {trackid2}</h1>
                         <div className='p-4 bg-[#fef3f2] border-[1px] border-[#fecdca] rounded flex items-baseline gap-3 text-[15px]'>
                             <span className='text-red-500'><MdOutlineError /></span>
                             <p>{t("about17")}</p>
@@ -97,14 +113,14 @@ const Trackshipment = () => {
                                 t("about14")}
                             <span className='text-[#0098a5]'> {date}</span></h1>
                         <p className='text-[#667085] mt-2 mb-8 text-sm border-b-[1px] border-b-gray-300 w-full text-center pb-8'>({t("about8") + " "}  {diffindays}  {" " + t("about8.5")}).</p>
-                        <div className='flex flex-col items-start w-full mb-6'>
+                        <div className='flex flex-col w-full mb-6'>
                             <h1 className='mb-8 text-[#667085] text-sm uppercase'>{t("about9")}</h1>
                             <div className='flex gap-3 items-center'>
                                 <h1 className='bg-[#d0d5dd] w-4 h-4 rounded-full'></h1>
-                                <h1 className='text-[17px] font-semibold'>{date.substring(0, 12)}</h1>
+                                <h1 className='text-[17px] font-semibold'>{date.substring(0,date.length-5)}</h1>
                             </div>
                             <div className='flex gap-[20px] items-center'>
-                                <h1 className='bg-[#d0d5dd] w-[2px] h-[74px] ml-[6px]'></h1>
+                                <h1 className={`bg-[#d0d5dd] w-[2px] h-[74px] ${txt2 === 'ltr' ? 'ml-[7px]' : 'mr-[7px]'}`}></h1>
                                 <div className='flex flex-col rounded-lg border-[1px] border-[#e4e7ec] py-2 px-4 text-sm'>
                                     <h1>{data?.CurrentStatus.state !== "DELIVERED_TO_SENDER" ?
                                         t("about7") :
