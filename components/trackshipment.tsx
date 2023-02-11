@@ -23,8 +23,8 @@ const Trackshipment = () => {
     const [data, setData] = useState<Data | null>(null);;
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [trackid, setTrackId] = useState(null);
-    const [trackid2, setTrackId2] = useState<Number | null>();
+    const [trackid, setTrackId] = useState();
+    const [trackid2, setTrackId2] = useState();
     const [date, setDate] = useState<string | null>(null);
     const [diffindays, setDiff] = useState(0);
     const [time, setTime] = useState("");
@@ -37,6 +37,7 @@ const Trackshipment = () => {
     };
 
     useEffect(() => {
+        console.log(trackid);
         const fetchData = async () => {
             try {
                 const response = await fetch('https://tracking.bosta.co/shipments/track/' + trackid);
@@ -47,7 +48,6 @@ const Trackshipment = () => {
                 setTrackId2(trackid);
                 if (data) {
                     moment.locale(i18n.language === 'ar' ? 'ar' : 'en');
-                    console.log(moment())
                     setDate(moment(data?.CurrentStatus.timestamp.substring(0, 24)).format("ddd, DD MMMM YYYY"));
                     setDiff(moment().locale('en').diff(moment(data?.CurrentStatus.timestamp.substring(0, 10)).locale('en').format("ddd, DD MMMM YYYY"), 'days'));
                     setTime(moment(data?.PromisedDate.substring(0, 24)).format("h:mm A"));
@@ -60,7 +60,7 @@ const Trackshipment = () => {
             }
         };
 
-        if (trackid !== null)
+        if (trackid !== undefined)
             fetchData();
 
     }, [loading, i18n.language]);
