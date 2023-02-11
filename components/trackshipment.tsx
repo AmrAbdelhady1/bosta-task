@@ -23,25 +23,20 @@ const Trackshipment = () => {
     const [data, setData] = useState<Data | null>(null);;
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [trackid, setTrackId] = useState();
-    const [trackid2, setTrackId2] = useState();
+    const [trackid, setTrackId] = useState(null);
+    const [trackid2, setTrackId2] = useState<Number | null>();
     const [date, setDate] = useState<string | null>(null);
     const [diffindays, setDiff] = useState(0);
     const [time, setTime] = useState("");
     const { t, i18n } = useTranslation();
     const txt: string = t("about4");
     const txt2: string = t("about16");
-    const [isMounted, setIsMounted] = useState(false);
 
     const handleClick = () => {
         setLoading(true);
     };
 
     useEffect(() => {
-        if (!isMounted) {
-            setIsMounted(true);
-            return;
-        }
         const fetchData = async () => {
             try {
                 const response = await fetch('https://tracking.bosta.co/shipments/track/' + trackid);
@@ -65,7 +60,8 @@ const Trackshipment = () => {
             }
         };
 
-        fetchData();
+        if (trackid !== null)
+            fetchData();
 
     }, [loading, i18n.language]);
 
@@ -117,7 +113,7 @@ const Trackshipment = () => {
                             <h1 className='mb-8 text-[#667085] text-sm uppercase'>{t("about9")}</h1>
                             <div className='flex gap-3 items-center'>
                                 <h1 className='bg-[#d0d5dd] w-4 h-4 rounded-full'></h1>
-                                <h1 className='text-[17px] font-semibold'>{date.substring(0,date.length-5)}</h1>
+                                <h1 className='text-[17px] font-semibold'>{date.substring(0, date.length - 5)}</h1>
                             </div>
                             <div className='flex gap-[20px] items-center'>
                                 <h1 className={`bg-[#d0d5dd] w-[2px] h-[74px] ${txt2 === 'ltr' ? 'ml-[7px]' : 'mr-[7px]'}`}></h1>
